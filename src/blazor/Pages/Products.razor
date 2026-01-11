@@ -1,0 +1,58 @@
+@page "/products"
+@using blazor.Models
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Products by miguelbtcode</h3>
+<button @onclick="AddProduct" class="btn btn-primary">Add Product</button>
+
+@if (products!.Count <= 0)
+{
+    <p><em>Loading Products...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price</td>
+                    <td><button @onclick="() => EditProduct(product.Id)" class="btn btn-primary">Edit</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Product>? products = new List<Product>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await Http.GetFromJsonAsync<List<Product>>("/api/product");
+    }
+
+    void AddProduct()
+    {
+        NavigationManager.NavigateTo("/product");
+    }
+
+    void EditProduct(int id)
+    {
+        NavigationManager.NavigateTo($"/product/{id}");
+    }
+}

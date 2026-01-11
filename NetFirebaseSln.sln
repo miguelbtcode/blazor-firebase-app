@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E745F609-2665-40D6-B831-C0B54655763D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetFirebase.Api", "src\Api\NetFirebase.Api.csproj", "{F358459C-571D-496C-9E59-2BE7CED03300}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blazor", "src\blazor\blazor.csproj", "{23F329BE-C25A-478B-8048-A35DE07F9480}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F358459C-571D-496C-9E59-2BE7CED03300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F358459C-571D-496C-9E59-2BE7CED03300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F358459C-571D-496C-9E59-2BE7CED03300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F358459C-571D-496C-9E59-2BE7CED03300}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23F329BE-C25A-478B-8048-A35DE07F9480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23F329BE-C25A-478B-8048-A35DE07F9480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23F329BE-C25A-478B-8048-A35DE07F9480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23F329BE-C25A-478B-8048-A35DE07F9480}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F358459C-571D-496C-9E59-2BE7CED03300} = {E745F609-2665-40D6-B831-C0B54655763D}
+		{23F329BE-C25A-478B-8048-A35DE07F9480} = {E745F609-2665-40D6-B831-C0B54655763D}
+	EndGlobalSection
+EndGlobal
