@@ -1,6 +1,7 @@
 using blazor;
 using Blazor.Auth;
 using Blazored.LocalStorage;
+using Blazored.Toast;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -13,6 +14,8 @@ builder.Services.AddScoped<AuthenticationStateProvider>(provider =>
 );
 
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddBlazoredToast();
+
 builder.Services.AddAuthorizationCore();
 
 builder.Services.AddScoped<IAuthService, AuthService>();

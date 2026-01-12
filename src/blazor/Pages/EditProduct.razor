@@ -40,12 +40,7 @@ else
 @code {
     [Parameter]
     public int? Id { get; set; }
-    Product product = new Product
-    {
-        Name = "Mackbook Pro",
-        Description = "Apple Laptop",
-        Price = 1299.99M
-    };
+    Product product = new Product();
 
     protected override async Task OnParametersSetAsync()
     {

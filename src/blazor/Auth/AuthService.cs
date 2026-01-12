@@ -32,7 +32,7 @@ public sealed class AuthService : IAuthService
             new StringContent(registerAsJson, Encoding.UTF8, "application/json")
         );
 
-        if (response.IsSuccessStatusCode)
+        if (!response.IsSuccessStatusCode)
         {
             return null!;
         }

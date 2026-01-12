@@ -1,4 +1,5 @@
-﻿@inject ApiAuthenticationStateProvider AuthStateProvider
+﻿@using System.Text.Json
+@inject ApiAuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
 
 <div class="top-row ps-3 navbar navbar-dark">
@@ -53,6 +54,7 @@
     {
         var authState = await AuthStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        UserFullName = user.Identity?.Name ?? "Anonymous";
+        Console.WriteLine("User Claims:", user);
+        UserFullName = user.Claims.FirstOrDefault()!.Value;
     }
 }

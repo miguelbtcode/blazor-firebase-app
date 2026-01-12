@@ -1,8 +1,10 @@
 @page "/login"
+@using Blazored.Toast.Services
 @attribute [AllowAnonymous]
 
 @inject IAuthService AuthService
-@inject NavigationManager NavigationManager;
+@inject IToastService toastService
+@inject NavigationManager NavigationManager
 
 <EditForm Model="loginModel">
     <div class="vh-100 d-flex justify-content-center align-items-center bg-light">
@@ -20,7 +22,7 @@
 
                             <div class="mb-3">
                                 <label for="password">Password</label>
-                                <InputText id="password" type="password" @bind-Value="loginModel.Email"
+                                <InputText id="password" type="password" @bind-Value="loginModel.Password"
                                     class="form-control">
                                 </InputText>
                             </div>
@@ -48,13 +50,14 @@
     async Task HandleLogin()
     {
         var result = await AuthService.Login(loginModel);
+        Console.WriteLine("Login result:", result);
         if (result is not null)
         {
             NavigationManager.NavigateTo("/");
         }
         else
         {
-            Console.WriteLine("Error al iniciar sesion");
+            toastService.ShowError("Error al iniciar sesión");
         }
     }
 

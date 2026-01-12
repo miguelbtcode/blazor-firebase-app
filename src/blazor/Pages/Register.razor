@@ -1,6 +1,8 @@
 @page "/register"
+@using Blazored.Toast.Services
 @attribute [AllowAnonymous]
 @inject IAuthService AuthService
+@inject IToastService toastService
 @inject NavigationManager NavigationManager
 
 <EditForm Model="registerModel">
@@ -57,9 +59,13 @@
         var result = await AuthService.Register(registerModel);
 
         if (!string.IsNullOrEmpty(result))
+        {
             NavigationManager.NavigateTo("/login");
+        }
         else
-            Console.WriteLine("Error en el registro de usuario");
+        {
+            toastService.ShowError("Error en el registro de usuario");
+        }
     }
 
     private void LoginUser()
