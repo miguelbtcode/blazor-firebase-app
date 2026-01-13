@@ -2,6 +2,7 @@ using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using NetFirebase.Api;
 using NetFirebase.Api.Data;
 using NetFirebase.Api.Extensions;
 using NetFirebase.Api.Services.Authentication;
@@ -22,9 +23,11 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(connectionString);
 });
 
+builder.Services.AddSignalR();
+builder.Services.AddHostedService<ServerNotifier>();
+
 FirebaseApp.Create(new AppOptions { Credential = GoogleCredential.FromFile("firebase.json") });
 
-// builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 builder.Services.AddHttpClient<IAuthenticationService, AuthenticationService>(
     (sp, httpClient) =>
     {
@@ -77,39 +80,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var summaries = new[]
-{
-    "Freezing",
-    "Bracing",
-    "Chilly",
-    "Cool",
-    "Mild",
-    "Warm",
-    "Balmy",
-    "Hot",
-    "Sweltering",
-    "Scorching",
-};
-
-app.MapGet(
-        "/weatherforecast",
-        () =>
-        {
-            var forecast = Enumerable
-                .Range(1, 5)
-                .Select(index => new WeatherForecast(
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-                .ToArray();
-            return forecast;
-        }
-    )
-    .WithName("GetWeatherForecast")
-    .WithOpenApi()
-    .RequireAuthorization();
-
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
@@ -119,9 +89,6 @@ app.MapControllers();
 
 app.UseTestData();
 
-await app.RunAsync();
+app.MapHub<NotificationHub>("notifications");
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+await app.RunAsync();
