@@ -1,17 +1,22 @@
 using FirebaseAdmin.Auth;
+using Microsoft.EntityFrameworkCore;
+using NetFirebase.Api.Data;
 using NetFirebase.Api.Dtos.Login;
 using NetFirebase.Api.Dtos.UserRegister;
 using NetFirebase.Api.Models;
+using NetFirebase.Api.Models.Domain;
 
 namespace NetFirebase.Api.Services.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {
     private readonly HttpClient _httpClient;
+    private readonly DatabaseContext _dbContext;
 
-    public AuthenticationService(HttpClient httpClient)
+    public AuthenticationService(HttpClient httpClient, DatabaseContext dbContext)
     {
         _httpClient = httpClient;
+        _dbContext = dbContext;
     }
 
     public async Task<string> RegisterAsync(
@@ -27,6 +32,17 @@ public class AuthenticationService : IAuthenticationService
         };
 
         var user = await FirebaseAuth.DefaultInstance.CreateUserAsync(userArgs, cancellationToken);
+
+        _dbContext.Users.Add(
+            new User
+            {
+                Email = request.Email,
+                FullName = request.FullName,
+                FirebaseId = user.Uid,
+            }
+        );
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return user.Uid;
     }
@@ -53,5 +69,15 @@ public class AuthenticationService : IAuthenticationService
         );
 
         return authFirebaseObject?.IdToken ?? string.Empty;
+    }
+
+    public async Task<User?> GetUserByEmailAsync(
+        string email,
+        CancellationToken cancellationToken = default
+    )
+    {
+        return await _dbContext
+            .Users.Where(u => u.Email == email)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }

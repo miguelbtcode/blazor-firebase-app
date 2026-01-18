@@ -39,11 +39,13 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<IEnumerable<Product>> GetAllProductsAsync()
+    public async Task<IEnumerable<Product>> GetAllProductsAsync(
+        CancellationToken cancellationToken = default
+    )
     {
         return await _dbContext
             .Database.SqlQuery<Product>(@$"SELECT * FROM fx_query_product_all();")
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<Product?> GetProductByIdAsync(int productId)
