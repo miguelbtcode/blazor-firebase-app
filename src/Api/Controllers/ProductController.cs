@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NetFirebase.Api.Authentication;
 using NetFirebase.Api.Models.Domain;
 using NetFirebase.Api.Services.Products;
 
@@ -17,6 +18,7 @@ public class ProductController : ControllerBase
         _productService = productService;
     }
 
+    [HasPermission(Permission.ReadMember)]
     [HttpPost]
     public async Task<ActionResult> CreateProduct([FromBody] Product request)
     {
