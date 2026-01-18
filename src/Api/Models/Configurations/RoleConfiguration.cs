@@ -14,6 +14,6 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 
         builder.HasMany(r => r.Permissions).WithMany().UsingEntity<RolePermission>();
 
-        builder.HasData(Role.CreateEnumerations());
+        builder.HasData(Role.CreateEnumerations().Values.Select(r => new { r.Id, r.Name }));
     }
 }

@@ -1,11 +1,14 @@
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using NetFirebase.Api;
+using NetFirebase.Api.Authentication;
 using NetFirebase.Api.Data;
 using NetFirebase.Api.Extensions;
 using NetFirebase.Api.Services.Authentication;
+using NetFirebase.Api.Services.Authorization;
 using NetFirebase.Api.Services.Products;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +65,11 @@ builder
 // });
 
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+builder.Services.AddMemoryCache();
+builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options =>
 {

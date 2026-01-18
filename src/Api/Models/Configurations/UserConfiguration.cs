@@ -12,6 +12,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasKey(u => u.Id);
 
-        builder.HasMany(u => u.Roles).WithMany().UsingEntity<UserRole>();
+        builder.HasMany(u => u.Roles).WithMany(r => r.Users).UsingEntity<UserRole>();
     }
 }

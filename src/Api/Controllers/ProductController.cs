@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetFirebase.Api.Authentication;
 using NetFirebase.Api.Models.Domain;
+using NetFirebase.Api.Models.Enums;
 using NetFirebase.Api.Services.Products;
 
 namespace NetFirebase.Api.Controllers;
@@ -18,7 +19,7 @@ public class ProductController : ControllerBase
         _productService = productService;
     }
 
-    [HasPermission(Permission.ReadMember)]
+    [HasPermission(PermissionEnum.WriteUser)]
     [HttpPost]
     public async Task<ActionResult> CreateProduct([FromBody] Product request)
     {
@@ -47,6 +48,7 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
 
+    [HasPermission(PermissionEnum.WriteUser)]
     [HttpPut]
     public async Task<ActionResult> UpdateProduct([FromBody] Product request)
     {
@@ -54,6 +56,7 @@ public class ProductController : ControllerBase
         return Ok();
     }
 
+    [HasPermission(PermissionEnum.WriteUser)]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteProduct(int id)
     {

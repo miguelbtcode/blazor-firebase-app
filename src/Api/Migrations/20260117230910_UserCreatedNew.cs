@@ -15,23 +15,27 @@ namespace NetFirebase.Api.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table
+                        .Column<int>(type: "integer", nullable: false)
+                        .Annotation(
+                            "Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
+                        ),
                     Email = table.Column<string>(type: "text", nullable: true),
                     FullName = table.Column<string>(type: "text", nullable: true),
-                    FirebaseId = table.Column<string>(type: "text", nullable: true)
+                    FirebaseId = table.Column<string>(type: "text", nullable: true),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                }
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Users");
+            migrationBuilder.DropTable(name: "Users");
         }
     }
 }
